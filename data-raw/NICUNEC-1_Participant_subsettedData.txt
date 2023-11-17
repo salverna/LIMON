@@ -1,0 +1,45 @@
+Participant_ID	Age at study (days) [EUPATH_0009212]	Stunted at birth [EUPATH_0009216]	Weight (g) [IAO_0000414]	Sepsis diagnosed [EUPATH_0009210]	Sex [PATO_0000047]	Contents of diet [EUPATH_0050531]	Country [ENVO_00000009]	Maternal antepartum antibiotics administered [EUPATH_0009191]	Maternal antepartum antibiotics administered time [EUPATH_0009192]	Chorioamnionitis [EUPATH_0009175]	Group B Streptococcus infection [EUPATH_0009172]	Necrotizing enterocolitis [EUPATH_0009177]	Gestational age at birth (days) [EUPATH_0009095]	Delivery mode [EUPATH_0000581]	Amnionicity [EUPATH_0009187]	Birth plurality [EUPATH_0009186]	Chorionicity [EUPATH_0009188]	Twin type [EUPATH_0009189]	Season of birth [EUPATH_0009209]	Sibling set ID [EUPATH_0009215]	Study group [EUPATH_0000639]	Survived [EUPATH_0009211]
+101 (Source)	475	No	733	Yes	Female	Breast milk	United States of America	No		No	No	No	25	Vaginal	Diamniotic	Double	Dichorionic	Fraternal	Summer	8	NIH4	Yes
+103 (Source)	492	No	1556	Yes	Female	Formula	United States of America	Yes	More than 24 hours prior to delivery	No	No	No	31	Vaginal		Single			Summer	NA	NIH4	Yes
+104 (Source)	494	No	1335	Yes	Female	Formula and breast milk	United States of America	No		No	No	No	28	Cesarean		Single			Autumn	NA	NIH4	Yes
+105 (Source)	493	No	1066	Yes	Male	Formula and breast milk	United States of America	Yes	More than 24 hours prior to delivery	No	No	No	28	Cesarean		Single			Autumn	NA	NIH4	Yes
+106 (Source)	498	No	983	Yes	Female	Formula	United States of America	Yes	More than 24 hours prior to delivery	No	No	Yes	27	Cesarean		Single			Autumn	NA	NIH4	Yes
+11 (Source)	64	No	523	Yes	Male	Formula and breast milk	United States of America	Yes	Less than 12 hours prior to delivery	No	No	Yes	26	Cesarean	Diamniotic	Double	Dichorionic	Fraternal	Winter	2	NIH1	Yes
+125 (Source)	673	No	1249	Yes	Male	Formula and breast milk	United States of America	Yes	More than 24 hours prior to delivery	No	No	No	30	Cesarean		Single			Autumn	NA	NIH4	Yes
+159 (Source)	847	No	908	Yes	Male	Formula	United States of America	Yes	More than 24 hours prior to delivery	No	No	No	27	Cesarean	Diamniotic	Double	Dichorionic	Fraternal	Spring	16	NIH4	Yes
+160 (Source)	847	No	910	Yes	Female	Formula	United States of America	Yes	More than 24 hours prior to delivery	No	No	No	27	Cesarean	Diamniotic	Double	Dichorionic	Fraternal	Spring	16	NIH4	Yes
+165 (Source)	868	No	781	Yes	Female	Formula	United States of America	Yes	Less than 12 hours prior to delivery	No	No	No	24	Cesarean		Single			Spring	NA	NIH4	Yes
+166 (Source)	868	No	815	Yes	Female	Breast milk	United States of America	No		No	No	No	26	Cesarean	Diamniotic	Double	Dichorionic	Fraternal	Spring	17	NIH4	Yes
+167 (Source)	868	No	834	Yes	Female	Breast milk	United States of America	No		No	No	No	26	Cesarean	Diamniotic	Double	Dichorionic	Fraternal	Spring	17	NIH4	Yes
+168 (Source)	883	No	774	Yes	Female	Formula and breast milk	United States of America	Yes	More than 24 hours prior to delivery	No	No	No	26	Cesarean		Single			Spring	NA	NIH4	Yes
+17 (Source)	86	No	748	Yes	Female	Formula and breast milk	United States of America	Yes	More than 24 hours prior to delivery	No	No	Yes	26	Vaginal		Single			Winter	NA	NIH1	No
+170 (Source)	888	No	1344	Yes	Female	Formula and breast milk	United States of America	Yes	Less than 12 hours prior to delivery	No	No	No	28	Cesarean		Single			Summer	NA	NIH4	Yes
+171 (Source)	888	No	623	Yes	Male	Formula and breast milk	United States of America	No		No	No	No	27	Cesarean		Single			Summer	NA	NIH4	Yes
+179 (Source)	946	No	854	Yes	Female	Formula and breast milk	United States of America	No		No	No	No	26	Cesarean	Diamniotic	Double	Dichorionic	Fraternal	Summer	18	NIH4	Yes
+188 (Source)	967	No	1249	Yes	Female	Formula	United States of America	Yes	12-24 hours prior to delivery	No	No	No	29	Cesarean		Single			Summer	NA	NIH4	Yes
+19 (Source)	92	No	731	Yes	Female	Formula and breast milk	United States of America	Yes	12-24 hours prior to delivery	No	No	No	24	Cesarean	Triamniotic	Triple	Trichorionic	Fraternal	Winter	3	NIH1	Yes
+21 (Source)	92	No	697	Yes	Female	Breast milk	United States of America	Yes	12-24 hours prior to delivery	No	No	Yes	24	Cesarean	Triamniotic	Triple	Trichorionic	Fraternal	Winter	3	NIH1	No
+224 (Source)	1218	No	610	Yes	Female	Formula and breast milk	United States of America	No		No	No	No	25	Cesarean		Single			Spring	NA	NIH5	Yes
+23 (Source)	101	No	875	Yes	Female	Breast milk	United States of America	Yes	Less than 12 hours prior to delivery	No	No	No	27	Vaginal		Single			Winter	NA	NIH1	Yes
+239 (Source)	1286	No	813	Yes	Male	Formula and breast milk	United States of America	No		No	No	No	26	Cesarean		Single			Spring	NA	NIH5	Yes
+241 (Source)	1302	Yes	814	Yes	Male	Formula and breast milk	United States of America	No		No	No	No	28	Cesarean		Single			Spring	NA	NIH5	Yes
+259 (Source)	1377	No	1294	Yes	Male	Breast milk	United States of America	No		No	No	No	27	Cesarean		Single			Summer	NA	NIH5	Yes
+273 (Source)	1427	No	1178	Yes	Female	Breast milk	United States of America	No		No	No	Yes	29	Cesarean	Triamniotic	Triple	Trichorionic	Fraternal	Autumn	35	NIH5	Yes
+279 (Source)	1476	No	1154	Yes	Male	Breast milk	United States of America	No		No	No	No	28	Vaginal		Single			Autumn	NA	NIH5	Yes
+3 (Source)	1	No	822	Yes	Female	Breast milk	United States of America	No		No	No	No	26	Cesarean		Single			Autumn	NA	NIH1	Yes
+31 (Source)	166	No	773	Yes	Male	Formula and breast milk	United States of America	Yes	More than 24 hours prior to delivery	Yes	No	No	26	Cesarean		Single			Winter	NA	NIH2	Yes
+35 (Source)	187	No	795	Yes	Male	Formula and breast milk	United States of America	Yes	More than 24 hours prior to delivery	No	No	No	25	Vaginal		Single			Spring	NA	NIH2	Yes
+502 (Source)	729	No	734	Yes	Female	Formula and breast milk	United States of America	No		No	No	Yes	29	Cesarean		Single			Autumn	NA	Sloan2	Yes
+505 (Source)	824	No	734	Yes	Female	Formula and breast milk	United States of America	No		Yes	No	No	25	Vaginal		Single			Winter	NA	Sloan2	Yes
+508 (Source)	891	No	1023	Yes	Male	Formula and breast milk	United States of America	No		Yes	No	No	27	Vaginal		Single			Spring	NA	Sloan2	Yes
+509 (Source)	912	No	930	Yes	Female	Formula	United States of America	No		Yes	No	No	25	Vaginal		Single			Spring	NA	Sloan2	Yes
+510 (Source)	947	No	1814	Yes	Male	Formula and breast milk	United States of America	No		No	No	No	32	Cesarean		Single			Summer	NA	Sloan2	Yes
+512 (Source)	986	No	1210	Yes	Female	Breast milk	United States of America	No		No	No	No	29	Cesarean		Single			Summer	NA	Sloan2	Yes
+514 (Source)	1009	No	1200	Yes	Male	Formula and breast milk	United States of America	No		No	No	No	30	Cesarean		Single			Summer	NA	Sloan2	Yes
+516 (Source)	1032	No	1319	Yes	Male	Formula and breast milk	United States of America	No		No	No	No	31	Cesarean		Single			Summer	NA	Sloan2	Yes
+518 (Source)	1080	No	1393	Yes	Male	Formula and breast milk	United States of America	No		Yes	No	No	29	Cesarean		Single			Autumn	NA	Sloan2	Yes
+61 (Source)	303	No	1184	Yes	Male	Formula and breast milk	United States of America	Yes	12-24 hours prior to delivery	Yes	No	Yes	28	Vaginal		Single			Summer	NA	NIH2	Yes
+70 (Source)	352	No	633	Yes	Female	Formula and breast milk	United States of America	Yes	More than 24 hours prior to delivery	No	No	No	26	Cesarean	Diamniotic	Double	Dichorionic	Fraternal	Autumn	5	NIH2	Yes
+79 (Source)	395	No	1694	Yes	Male	Breast milk	United States of America	No		No	No	No	30	Cesarean		Single			Winter	NA	NIH4	Yes
+89 (Source)	430	No	1013	Yes	Female	Formula	United States of America	No		No	No	No	28	Cesarean	Diamniotic	Double	Monochorionic	Identical	Spring	7	NIH4	Yes
+95 (Source)	467	No	1237	Yes	Female	Breast milk	United States of America	Yes	More than 24 hours prior to delivery	No	No	No	29	Cesarean		Single			Summer	NA	NIH4	Yes
