@@ -1,0 +1,405 @@
+Participant_repeated_measure_ID	Participant_ID	Days of period NEC diagnosed (days) [EUPATH_0009213]	Age (days) [OBI_0001169]
+101_0 (Source)	101 (Source)		0
+101_12 (Source)	101 (Source)		12
+101_15 (Source)	101 (Source)		15
+101_17 (Source)	101 (Source)		17
+101_27 (Source)	101 (Source)		27
+101_38 (Source)	101 (Source)		38
+101_42 (Source)	101 (Source)		42
+103_0 (Source)	103 (Source)		0
+103_20 (Source)	103 (Source)		20
+103_28 (Source)	103 (Source)		28
+104_0 (Source)	104 (Source)		0
+104_10 (Source)	104 (Source)		10
+104_13 (Source)	104 (Source)		13
+104_21 (Source)	104 (Source)		21
+104_27 (Source)	104 (Source)		27
+105_0 (Source)	105 (Source)		0
+105_10 (Source)	105 (Source)		10
+105_11 (Source)	105 (Source)		11
+105_16 (Source)	105 (Source)		16
+105_7 (Source)	105 (Source)		7
+106_0 (Source)	106 (Source)	-9	0
+106_10 (Source)	106 (Source)	1	10
+106_11 (Source)	106 (Source)	2	11
+106_28 (Source)	106 (Source)		28
+106_51 (Source)	106 (Source)		51
+106_59 (Source)	106 (Source)		59
+106_9 (Source)	106 (Source)	0	9
+11_11 (Source)	11 (Source)	-23	11
+11_13 (Source)	11 (Source)	-21	13
+11_14 (Source)	11 (Source)	-20	14
+11_15 (Source)	11 (Source)	-19	15
+11_20 (Source)	11 (Source)	-14	20
+11_21 (Source)	11 (Source)	-13	21
+11_23 (Source)	11 (Source)	-11	23
+11_25 (Source)	11 (Source)	-9	25
+11_27 (Source)	11 (Source)	-7	27
+11_28 (Source)	11 (Source)	-6	28
+11_33 (Source)	11 (Source)	-1	33
+11_37 (Source)	11 (Source)	3	37
+11_46 (Source)	11 (Source)		46
+11_51 (Source)	11 (Source)		51
+11_62 (Source)	11 (Source)		62
+11_69 (Source)	11 (Source)		69
+11_70 (Source)	11 (Source)		70
+11_71 (Source)	11 (Source)		71
+125_0 (Source)	125 (Source)		0
+125_11 (Source)	125 (Source)		11
+125_15 (Source)	125 (Source)		15
+125_18 (Source)	125 (Source)		18
+125_8 (Source)	125 (Source)		8
+159_0 (Source)	159 (Source)		0
+159_15 (Source)	159 (Source)		15
+159_24 (Source)	159 (Source)		24
+159_31 (Source)	159 (Source)		31
+159_39 (Source)	159 (Source)		39
+159_53 (Source)	159 (Source)		53
+160_0 (Source)	160 (Source)		0
+160_10 (Source)	160 (Source)		10
+160_24 (Source)	160 (Source)		24
+160_39 (Source)	160 (Source)		39
+160_53 (Source)	160 (Source)		53
+165_0 (Source)	165 (Source)		0
+165_25 (Source)	165 (Source)		25
+165_37 (Source)	165 (Source)		37
+165_51 (Source)	165 (Source)		51
+166_0 (Source)	166 (Source)		0
+166_20 (Source)	166 (Source)		20
+166_27 (Source)	166 (Source)		27
+166_61 (Source)	166 (Source)		61
+167_0 (Source)	167 (Source)		0
+167_20 (Source)	167 (Source)		20
+167_27 (Source)	167 (Source)		27
+167_66 (Source)	167 (Source)		66
+167_72 (Source)	167 (Source)		72
+168_0 (Source)	168 (Source)		0
+168_17 (Source)	168 (Source)		17
+168_21 (Source)	168 (Source)		21
+168_23 (Source)	168 (Source)		23
+17_10 (Source)	17 (Source)	-1	10
+17_11 (Source)	17 (Source)	0	11
+17_9 (Source)	17 (Source)	-2	9
+170_0 (Source)	170 (Source)		0
+170_12 (Source)	170 (Source)		12
+170_16 (Source)	170 (Source)		16
+170_19 (Source)	170 (Source)		19
+170_7 (Source)	170 (Source)		7
+170_9 (Source)	170 (Source)		9
+171_0 (Source)	171 (Source)		0
+171_17 (Source)	171 (Source)		17
+171_26 (Source)	171 (Source)		26
+171_5 (Source)	171 (Source)		5
+179_0 (Source)	179 (Source)		0
+179_13 (Source)	179 (Source)		13
+179_18 (Source)	179 (Source)		18
+179_23 (Source)	179 (Source)		23
+179_36 (Source)	179 (Source)		36
+179_64 (Source)	179 (Source)		64
+188_0 (Source)	188 (Source)		0
+188_19 (Source)	188 (Source)		19
+188_25 (Source)	188 (Source)		25
+188_38 (Source)	188 (Source)		38
+188_45 (Source)	188 (Source)		45
+19_10 (Source)	19 (Source)		10
+19_11 (Source)	19 (Source)		11
+19_12 (Source)	19 (Source)		12
+19_13 (Source)	19 (Source)		13
+19_14 (Source)	19 (Source)		14
+19_15 (Source)	19 (Source)		15
+19_16 (Source)	19 (Source)		16
+19_17 (Source)	19 (Source)		17
+19_18 (Source)	19 (Source)		18
+19_19 (Source)	19 (Source)		19
+19_20 (Source)	19 (Source)		20
+19_21 (Source)	19 (Source)		21
+19_22 (Source)	19 (Source)		22
+19_23 (Source)	19 (Source)		23
+19_24 (Source)	19 (Source)		24
+19_26 (Source)	19 (Source)		26
+19_27 (Source)	19 (Source)		27
+19_31 (Source)	19 (Source)		31
+19_38 (Source)	19 (Source)		38
+19_49 (Source)	19 (Source)		49
+19_56 (Source)	19 (Source)		56
+19_57 (Source)	19 (Source)		57
+21_12 (Source)	21 (Source)	-20	12
+21_13 (Source)	21 (Source)	-19	13
+21_15 (Source)	21 (Source)	-17	15
+21_16 (Source)	21 (Source)	-16	16
+21_17 (Source)	21 (Source)	-15	17
+21_18 (Source)	21 (Source)	-14	18
+21_19 (Source)	21 (Source)	-13	19
+21_21 (Source)	21 (Source)	-11	21
+21_22 (Source)	21 (Source)	-10	22
+21_23 (Source)	21 (Source)	-9	23
+21_24 (Source)	21 (Source)	-8	24
+21_26 (Source)	21 (Source)	-6	26
+21_27 (Source)	21 (Source)	-5	27
+21_28 (Source)	21 (Source)	-4	28
+21_30 (Source)	21 (Source)	-2	30
+224_13 (Source)	224 (Source)		13
+224_28 (Source)	224 (Source)		28
+224_45 (Source)	224 (Source)		45
+224_52 (Source)	224 (Source)		52
+224_65 (Source)	224 (Source)		65
+224_78 (Source)	224 (Source)		78
+224_8 (Source)	224 (Source)		8
+23_13 (Source)	23 (Source)		13
+23_14 (Source)	23 (Source)		14
+23_15 (Source)	23 (Source)		15
+23_17 (Source)	23 (Source)		17
+23_18 (Source)	23 (Source)		18
+23_19 (Source)	23 (Source)		19
+23_20 (Source)	23 (Source)		20
+23_21 (Source)	23 (Source)		21
+23_29 (Source)	23 (Source)		29
+23_34 (Source)	23 (Source)		34
+23_42 (Source)	23 (Source)		42
+23_50 (Source)	23 (Source)		50
+23_55 (Source)	23 (Source)		55
+23_7 (Source)	23 (Source)		7
+23_9 (Source)	23 (Source)		9
+239_121 (Source)	239 (Source)		121
+239_26 (Source)	239 (Source)		26
+239_52 (Source)	239 (Source)		52
+239_64 (Source)	239 (Source)		64
+239_80 (Source)	239 (Source)		80
+239_86 (Source)	239 (Source)		86
+239_9 (Source)	239 (Source)		9
+241_10 (Source)	241 (Source)		10
+241_40 (Source)	241 (Source)		40
+241_68 (Source)	241 (Source)		68
+259_34 (Source)	259 (Source)		34
+259_80 (Source)	259 (Source)		80
+273_11 (Source)	273 (Source)		11
+273_15 (Source)	273 (Source)		15
+273_16 (Source)	273 (Source)		16
+273_34 (Source)	273 (Source)		34
+273_55 (Source)	273 (Source)		55
+273_6 (Source)	273 (Source)		6
+273_7 (Source)	273 (Source)		7
+273_8 (Source)	273 (Source)		8
+279_12 (Source)	279 (Source)		12
+279_41 (Source)	279 (Source)		41
+3_11 (Source)	3 (Source)		11
+3_13 (Source)	3 (Source)		13
+3_15 (Source)	3 (Source)		15
+3_17 (Source)	3 (Source)		17
+3_18 (Source)	3 (Source)		18
+3_19 (Source)	3 (Source)		19
+3_21 (Source)	3 (Source)		21
+3_22 (Source)	3 (Source)		22
+3_23 (Source)	3 (Source)		23
+3_25 (Source)	3 (Source)		25
+3_26 (Source)	3 (Source)		26
+3_27 (Source)	3 (Source)		27
+3_28 (Source)	3 (Source)		28
+3_39 (Source)	3 (Source)		39
+3_44 (Source)	3 (Source)		44
+3_52 (Source)	3 (Source)		52
+3_78 (Source)	3 (Source)		78
+3_86 (Source)	3 (Source)		86
+31_10 (Source)	31 (Source)		10
+31_12 (Source)	31 (Source)		12
+31_14 (Source)	31 (Source)		14
+31_16 (Source)	31 (Source)		16
+31_18 (Source)	31 (Source)		18
+31_20 (Source)	31 (Source)		20
+31_21 (Source)	31 (Source)		21
+31_23 (Source)	31 (Source)		23
+31_27 (Source)	31 (Source)		27
+31_33 (Source)	31 (Source)		33
+31_40 (Source)	31 (Source)		40
+31_55 (Source)	31 (Source)		55
+31_8 (Source)	31 (Source)		8
+35_10 (Source)	35 (Source)		10
+35_12 (Source)	35 (Source)		12
+35_14 (Source)	35 (Source)		14
+35_16 (Source)	35 (Source)		16
+35_18 (Source)	35 (Source)		18
+35_20 (Source)	35 (Source)		20
+35_22 (Source)	35 (Source)		22
+35_25 (Source)	35 (Source)		25
+35_27 (Source)	35 (Source)		27
+35_32 (Source)	35 (Source)		32
+35_39 (Source)	35 (Source)		39
+35_46 (Source)	35 (Source)		46
+35_53 (Source)	35 (Source)		53
+502_10 (Source)	502 (Source)	-19	10
+502_11 (Source)	502 (Source)	-18	11
+502_12 (Source)	502 (Source)	-17	12
+502_13 (Source)	502 (Source)	-16	13
+502_14 (Source)	502 (Source)	-15	14
+502_15 (Source)	502 (Source)	-14	15
+502_16 (Source)	502 (Source)	-13	16
+502_17 (Source)	502 (Source)	-12	17
+502_18 (Source)	502 (Source)	-11	18
+502_19 (Source)	502 (Source)	-10	19
+502_20 (Source)	502 (Source)	-9	20
+502_22 (Source)	502 (Source)	-7	22
+502_23 (Source)	502 (Source)	-6	23
+502_24 (Source)	502 (Source)	-5	24
+502_26 (Source)	502 (Source)	-3	26
+502_27 (Source)	502 (Source)	-2	27
+502_28 (Source)	502 (Source)	-1	28
+502_5 (Source)	502 (Source)	-24	5
+502_7 (Source)	502 (Source)	-22	7
+505_0 (Source)	505 (Source)		0
+508_10 (Source)	508 (Source)		10
+508_11 (Source)	508 (Source)		11
+508_12 (Source)	508 (Source)		12
+508_14 (Source)	508 (Source)		14
+508_15 (Source)	508 (Source)		15
+508_17 (Source)	508 (Source)		17
+508_20 (Source)	508 (Source)		20
+508_21 (Source)	508 (Source)		21
+508_23 (Source)	508 (Source)		23
+508_24 (Source)	508 (Source)		24
+508_26 (Source)	508 (Source)		26
+508_27 (Source)	508 (Source)		27
+508_7 (Source)	508 (Source)		7
+508_8 (Source)	508 (Source)		8
+509_10 (Source)	509 (Source)		10
+509_11 (Source)	509 (Source)		11
+509_12 (Source)	509 (Source)		12
+509_13 (Source)	509 (Source)		13
+509_14 (Source)	509 (Source)		14
+509_15 (Source)	509 (Source)		15
+509_16 (Source)	509 (Source)		16
+509_17 (Source)	509 (Source)		17
+509_18 (Source)	509 (Source)		18
+509_19 (Source)	509 (Source)		19
+509_20 (Source)	509 (Source)		20
+509_21 (Source)	509 (Source)		21
+509_22 (Source)	509 (Source)		22
+509_23 (Source)	509 (Source)		23
+509_24 (Source)	509 (Source)		24
+509_25 (Source)	509 (Source)		25
+509_26 (Source)	509 (Source)		26
+509_27 (Source)	509 (Source)		27
+509_28 (Source)	509 (Source)		28
+509_5 (Source)	509 (Source)		5
+509_8 (Source)	509 (Source)		8
+509_9 (Source)	509 (Source)		9
+510_16 (Source)	510 (Source)		16
+510_17 (Source)	510 (Source)		17
+510_18 (Source)	510 (Source)		18
+510_19 (Source)	510 (Source)		19
+510_21 (Source)	510 (Source)		21
+510_22 (Source)	510 (Source)		22
+510_23 (Source)	510 (Source)		23
+510_24 (Source)	510 (Source)		24
+510_26 (Source)	510 (Source)		26
+510_30 (Source)	510 (Source)		30
+510_5 (Source)	510 (Source)		5
+510_6 (Source)	510 (Source)		6
+510_7 (Source)	510 (Source)		7
+510_8 (Source)	510 (Source)		8
+512_10 (Source)	512 (Source)		10
+512_11 (Source)	512 (Source)		11
+512_12 (Source)	512 (Source)		12
+512_13 (Source)	512 (Source)		13
+512_14 (Source)	512 (Source)		14
+512_15 (Source)	512 (Source)		15
+512_16 (Source)	512 (Source)		16
+512_17 (Source)	512 (Source)		17
+512_18 (Source)	512 (Source)		18
+512_19 (Source)	512 (Source)		19
+512_20 (Source)	512 (Source)		20
+512_21 (Source)	512 (Source)		21
+512_22 (Source)	512 (Source)		22
+512_23 (Source)	512 (Source)		23
+512_24 (Source)	512 (Source)		24
+512_25 (Source)	512 (Source)		25
+512_26 (Source)	512 (Source)		26
+512_27 (Source)	512 (Source)		27
+512_5 (Source)	512 (Source)		5
+512_7 (Source)	512 (Source)		7
+512_8 (Source)	512 (Source)		8
+512_9 (Source)	512 (Source)		9
+514_10 (Source)	514 (Source)		10
+514_11 (Source)	514 (Source)		11
+514_13 (Source)	514 (Source)		13
+514_15 (Source)	514 (Source)		15
+514_16 (Source)	514 (Source)		16
+514_17 (Source)	514 (Source)		17
+514_18 (Source)	514 (Source)		18
+514_19 (Source)	514 (Source)		19
+514_20 (Source)	514 (Source)		20
+514_21 (Source)	514 (Source)		21
+514_23 (Source)	514 (Source)		23
+514_24 (Source)	514 (Source)		24
+514_25 (Source)	514 (Source)		25
+514_26 (Source)	514 (Source)		26
+514_28 (Source)	514 (Source)		28
+514_7 (Source)	514 (Source)		7
+514_9 (Source)	514 (Source)		9
+516_10 (Source)	516 (Source)		10
+516_11 (Source)	516 (Source)		11
+516_13 (Source)	516 (Source)		13
+516_14 (Source)	516 (Source)		14
+516_15 (Source)	516 (Source)		15
+516_16 (Source)	516 (Source)		16
+516_17 (Source)	516 (Source)		17
+516_18 (Source)	516 (Source)		18
+516_19 (Source)	516 (Source)		19
+516_21 (Source)	516 (Source)		21
+516_23 (Source)	516 (Source)		23
+516_24 (Source)	516 (Source)		24
+516_25 (Source)	516 (Source)		25
+516_26 (Source)	516 (Source)		26
+516_27 (Source)	516 (Source)		27
+516_28 (Source)	516 (Source)		28
+516_7 (Source)	516 (Source)		7
+516_8 (Source)	516 (Source)		8
+516_9 (Source)	516 (Source)		9
+518_10 (Source)	518 (Source)		10
+518_11 (Source)	518 (Source)		11
+518_12 (Source)	518 (Source)		12
+518_13 (Source)	518 (Source)		13
+518_14 (Source)	518 (Source)		14
+518_15 (Source)	518 (Source)		15
+518_16 (Source)	518 (Source)		16
+518_17 (Source)	518 (Source)		17
+518_18 (Source)	518 (Source)		18
+518_19 (Source)	518 (Source)		19
+518_20 (Source)	518 (Source)		20
+518_21 (Source)	518 (Source)		21
+518_22 (Source)	518 (Source)		22
+518_23 (Source)	518 (Source)		23
+518_6 (Source)	518 (Source)		6
+518_7 (Source)	518 (Source)		7
+518_8 (Source)	518 (Source)		8
+518_9 (Source)	518 (Source)		9
+61_15 (Source)	61 (Source)	6	15
+61_19 (Source)	61 (Source)	10	19
+61_21 (Source)	61 (Source)	12	21
+61_25 (Source)	61 (Source)		25
+61_7 (Source)	61 (Source)	-2	7
+61_8 (Source)	61 (Source)	-1	8
+61_82 (Source)	61 (Source)	48	82
+70_16 (Source)	70 (Source)		16
+70_19 (Source)	70 (Source)		19
+70_20 (Source)	70 (Source)		20
+70_24 (Source)	70 (Source)		24
+70_27 (Source)	70 (Source)		27
+70_30 (Source)	70 (Source)		30
+70_36 (Source)	70 (Source)		36
+70_42 (Source)	70 (Source)		42
+70_57 (Source)	70 (Source)		57
+70_60 (Source)	70 (Source)		60
+79_0 (Source)	79 (Source)		0
+79_14 (Source)	79 (Source)		14
+79_21 (Source)	79 (Source)		21
+79_8 (Source)	79 (Source)		8
+89_0 (Source)	89 (Source)		0
+89_18 (Source)	89 (Source)		18
+89_22 (Source)	89 (Source)		22
+89_27 (Source)	89 (Source)		27
+89_8 (Source)	89 (Source)		8
+95_0 (Source)	95 (Source)		0
+95_12 (Source)	95 (Source)		12
+95_16 (Source)	95 (Source)		16
+95_19 (Source)	95 (Source)		19
+95_25 (Source)	95 (Source)		25
