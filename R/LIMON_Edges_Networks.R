@@ -29,6 +29,7 @@ LIMON_Edges_Networks <- function(Obj, threshold = 0.2,
     #convert diagonal elements to 0
     diagonal_indices <- 1:nrow(cov_matrix)
     cov_matrix[cbind(diagonal_indices, diagonal_indices)] <- 0
+
     #convert lower triangle to 0 so you dont pull redundant combos
     cov_matrix[lower.tri(cov_matrix)] <- 0
 

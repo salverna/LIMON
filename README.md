@@ -7,6 +7,11 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
+This pipeline is still under development. We appreciate any comments or
+feedback to help improve this platform
+
+## Motivation
+
 Microbial communities are dynamic structures that continually adapt to
 their surrounding environment. Such communities play pivotal roles in
 countless ecosystems from environmental to human health. Perturbations
@@ -64,12 +69,11 @@ samples collected longitudinally from 150 pre-term infants. 30 of these
 infants developed necrotizing enterocolitis. For this example data, we
 used the
 [MicrobiomeDB](https://microbiomedb.org/mbio/app/workspace/analyses/DS_84fcb69f4e/new)
-to pull the species level relative abundance metagenomic tables for the
-30 infants with NEC and healthy infants who did not develop NEC.
+to pull the genus level relative abundance metagenomic tables.
 
 <br> General tips for using LIMON;
 
-- Filter your taxa table down (probably 25-100 ASVs at most)
+- Filter your taxa table down (Ex: 25-100 ASVs.
 - Ensure the row names of your Count table and Sample Data table are the
   same
 - Have an integer-based “Time” column in your Sample Data where Time
@@ -87,124 +91,207 @@ to pull the species level relative abundance metagenomic tables for the
 - Use the same parameters for SPIEC-EASI per time as for individual
   networks
 
-### 1. Analysis of Healthy Controls
+### 1. Data Prep
 
-We will start by examining the change in microbial networks for infants
-that did not develop NEC.
-
-<br> Load the LIMON package. This contains the necessary dependencies
-and the example data.
+<br> Load the LIMON package and additional libraries
 
 ``` r
+# For LIMON
 library(LIMON)
+library(here)
+library(tidyverse)
+library(igraph)
+library(NBZIMM)
+library(SpiecEasi)
+
+# For Statistical Testing
+library(lme4)
+library(lmerTest)
 ```
 
-#### 1a: Healthy Infants Raw Data
+#### 1.1 DATA CLEANING
 
-Load the raw Data for infants who did not develop NEC (labeled as “HC”)
+------------------------------------------------------------------------
+
+Prior to running the pipeline, we want to have nicely formatted data. So
+buckle up for some data cleaning steps before we get to the fun part.
+<br>
+
+**Metadata**  
+Load the raw Data for all infants
 
 ``` r
-data("HC_Participant_data")
-data("HC_Repeated_data")
-data("HC_Sample_data")
-data("HC_Metagenomic_data")
+data("NEC_Participant_data")
+data("NEC_Repeated_data")
+data("NEC_Sample_data")
+#data("NEC_Metagenomic_data")
+NEC_Metagenomic_data <- read_delim(here("NICUNEC-1_Metagenomic sequencing assay_subsettedData.txt"))
 ```
 
-#### 1b: Prep the SampleData
-
-Because the time points are continuous in days, we are going to set
-categorical time points by days. 0-7 days will be time point 1, 8-17
-days time point 2, and 18-26 days is time point 3.
+Merge the sample/participant dataframes together. In this dataset,
+Particiapnt ID represents each unique infant, while Sample ID represents
+each unique metagenomic sample (ie the repeated measure from infants)
 
 ``` r
-Meta_merged_raw <- merge(HC_Participant_data, HC_Repeated_data, by = "Participant_ID")
+Meta_merged_raw <- merge(NEC_Participant_data, NEC_Repeated_data, by = "Participant_ID")
 
-Meta_merged_raw2 <- merge(Meta_merged_raw, HC_Sample_data, 
+Meta_merged_raw2 <- merge(Meta_merged_raw, NEC_Sample_data, 
                          by = c("Participant_repeated_measure_ID", "Participant_ID"))
 
 Meta_merged_raw2 <- column_to_rownames(Meta_merged_raw2, "Sample_ID")
 
-Meta_merged_3 <- unique(Meta_merged_raw2)
+# Remove blank space and extra characters from Participant ID
+Meta_merged_raw2$Participant_ID <- sub(" .*", "", Meta_merged_raw2$Participant_ID)
+```
 
-Meta_merged_4 <- Meta_merged_3[,c(2,5,7,8,16,26)]
-names(Meta_merged_4) <- c("Subject_ID", "Birth_weight", "Sex", "Diet", "Birth_mode", "Age")
-Meta_merged_4$Subject_ID <- sub(" .*", "", Meta_merged_4$Subject_ID)
-Meta_merged_4$Time <- NA
+Use the Age (days) and the time since NEC column to make an Age at
+diagnosis variable
 
-# Set time points
-Meta_merged <- Meta_merged_4 %>% mutate(Time = case_when(
-  Age >= 0 & Age <= 7 ~ 1,
-  Age >= 8 & Age <= 17 ~ 2,
-  Age >= 18 & Age <= 26 ~ 3,
+``` r
+#Make new column with diagnosis age
+Meta_merged_raw2$Diagnosis_Age <- Meta_merged_raw2$Age..days...OBI_0001169. - 
+                                  Meta_merged_raw2$Days.of.period.NEC.diagnosed..days...EUPATH_0009213.
+
+# Fill down the Diagnosis_Age
+Meta_merged_raw3 <- Meta_merged_raw2 %>%
+  group_by(Participant_ID) %>%
+  fill(Diagnosis_Age)
+
+# Make a Binary NEC column with 0's for NEC no and 1's for NEC yes
+Meta_merged_raw3$NEC <- NULL
+
+Meta_merged_raw4 <- Meta_merged_raw3 %>% 
+  mutate(NEC = case_when(
+    !is.na(Diagnosis_Age) ~ 1,
+    is.na(Diagnosis_Age) ~ 0,
+    TRUE ~ NA_real_ 
+  ))
+
+
+# Filter down to columns of interest
+Meta_merged_raw5 <- Meta_merged_raw4[,c(2,5,7,8,16,26,48,49)]
+
+names(Meta_merged_raw5) <- c("Subject_ID", "Birth_weight", "Sex", "Diet", "Birth_mode", "Age", "Diagnosis_Age", "NEC")
+rownames(Meta_merged_raw5) <- rownames(Meta_merged_raw2)
+Meta_merged_raw5 <- rownames_to_column(Meta_merged_raw5, "SampleID")
+```
+
+Filter to NEC infants & create time variable based on age. This will be
+the sample data we will use when running the pipeline for NEC infants.
+The time variable we used is an every 10 day sample during the first 30
+days of life (Time 1 = 10-12 days old, Time 2 = 18-22 days old, Time 3 =
+28 -32 years old). We also filter by infants who were diagnosed within
+the first 35 days of life to pick up on network changes during this
+period.
+
+``` r
+NEC_Meta_raw <- Meta_merged_raw5 %>% filter(NEC == 1)
+NEC_Meta_raw2 <- NEC_Meta_raw %>% filter(Diagnosis_Age <=35)
+NEC_Meta_raw2$Time <- NULL
+
+NEC_Meta_data <- NEC_Meta_raw2 %>% mutate(Time = case_when(
+  Age >= 8 & Age <= 12 ~ 1,
+  Age >= 18 & Age <= 22 ~ 2,
+  Age >= 28 & Age <= 32 ~ 3,
   TRUE ~ NA )) %>%
   filter(!is.na(Time))
 
-#filter samples
-Meta_data <- Meta_merged[!duplicated(Meta_merged[c("Subject_ID", "Time")]), ]
+NEC_Meta_data1 <- NEC_Meta_data[!duplicated(NEC_Meta_data[c("Subject_ID", "Time")]), ]
 
-Meta_data$Birth_weight <- as.numeric(Meta_data$Birth_weight)
-Meta_data$Age <- as.numeric(Meta_data$Age)
-
-#Filter to only individuals with three time points
-Meta_data2 <- Meta_data %>%
-  rownames_to_column("SampleID") %>%
-  group_by(Subject_ID) %>%
-  filter(n() == 3) %>%
-  ungroup() %>%
-  column_to_rownames("SampleID")
-
-#add a group columns
-Meta_data2$NEC <- 0
+#print how many participants we have
+length(unique(NEC_Meta_data1$Subject_ID))
+NEC_Meta_data <- column_to_rownames(NEC_Meta_data1, "SampleID")
 ```
 
-#### 1c: Prep the Counts
+Now repeat for non-NEC infants (we will label as “HC” for healthy
+control)
 
-Now that we have cleaned meta data, clean up the species level relative
-abundance count tables. For this dataset, we filtered to the top 50 most
-prevalent taxa. Note this dataset provides the counts in terms of
-proportional data.
+``` r
+HC_Meta_raw <- Meta_merged_raw5 %>% filter(NEC == 0)
+HC_Meta_raw$Time <- NULL
+
+HC_Meta_data <- HC_Meta_raw %>% mutate(Time = case_when(
+  Age >= 8 & Age <= 12 ~ 1,
+  Age >= 18 & Age <= 22 ~ 2,
+  Age >= 28 & Age <= 32 ~ 3,
+  TRUE ~ NA )) %>%
+  filter(!is.na(Time))
+
+HC_Meta_data <- HC_Meta_data[!duplicated(HC_Meta_data[c("Subject_ID", "Time")]), ]
+
+length(unique(HC_Meta_data$Subject_ID))
+
+
+HC_Meta_data <- column_to_rownames(HC_Meta_data, "SampleID")
+```
+
+<br>
+
+**Count Data**  
+Now lets do a similar process for the count data.
 
 ``` r
 # Step 1 - Read Rawcounts
 ###################################################################
-Counts <- HC_Metagenomic_data[,-c(1,3,4)]
+#drop the sample data and then the Phylum columns
+Counts <- NEC_Metagenomic_data[,-c(1,3,4)]
 Counts <- column_to_rownames(Counts, "Sample_ID")
 
-# Step 2 - Filter the table 
+# Step 2 - Clean & Filter the table 
 ###################################################################
-Counts[is.na(Counts)] <- 0
+Counts[is.na(Counts)] <- 0 #convert NAs to 0
 
-colnames(Counts) <- sub("\\.{2}.*", "", colnames(Counts))
-
-#Drop Eukaroytes and Bacteria columns
-Counts <- Counts[,-c(1,2)]
-
-#Drop columns that sum to 0 
-zero_tax <- which(colSums(Counts) == 0)
-
-# Drop the columns with zero sum
-Counts <- Counts[, -zero_tax]
-
-# Filter to the top 50 taxa
-col_sums <- colSums(Counts)
-colsums_sorted <- order(col_sums, decreasing = TRUE)
-colsums_sorted <- colsums_sorted[1:50]
-Counts <- Counts[, colsums_sorted]
-
-# Step 3 - Filter to Samples in Metadata
-###################################################################
-Counts <- Counts %>% filter(rownames(Counts) %in% rownames(Meta_data2))
-Meta_data3 <- Meta_data2 %>% filter(rownames(Meta_data2) %in% rownames(Counts))
+colnames(Counts) <- sub(" .*", "", colnames(Counts))
 ```
 
-#### 1d. Make the LIMON Object
+Filter to non-NEC infants & and then the top 35 most abundant taxa
 
 ``` r
-HC_obj <- LIMON_Obj(Counts = Counts, 
-                           SampleData = Meta_data3)
+# Filter to non-NEC
+HC_Counts <- Counts %>% 
+  subset(rownames(Counts) %in% rownames(HC_Meta_data))
+
+# Filter to top 35 most abundant taxa
+col_sums <- colSums(HC_Counts)
+colsums_sorted <- order(col_sums, decreasing = TRUE)
+colsums_sorted <- colsums_sorted[1:35]
+HC_Counts <- HC_Counts[, colsums_sorted]
 ```
 
-#### 1e: Fit the distribution/remove covariates
+Filter to NEC infants & and then the top 35 most abundant taxa
+
+``` r
+# Filter to non-NEC
+NEC_Counts <- Counts %>% 
+  subset(rownames(Counts) %in% rownames(NEC_Meta_data))
+
+
+# Filter to top 35 most abundant taxa
+col_sums <- colSums(NEC_Counts)
+colsums_sorted <- order(col_sums, decreasing = TRUE)
+colsums_sorted <- colsums_sorted[1:35]
+NEC_Counts <- NEC_Counts[, colsums_sorted]
+
+#Filter Metadata by number of counts 
+NEC_Meta_data <- NEC_Meta_data %>% subset(rownames(NEC_Meta_data) %in% rownames(NEC_Counts))
+```
+
+<br> Woo! Now we have two clean count tables and two clean sample data
+tables. Lets move on to implementing the LIMON Analysis <br>
+
+### 2. NON-NEC INFANT ANALYSIS
+
+------------------------------------------------------------------------
+
+#### 2.1 Make the LIMON Object
+
+``` r
+# Make the Object
+HC_obj <- LIMON_Obj(Counts = HC_Counts, 
+                           SampleData = HC_Meta_data)
+```
+
+#### 2.2 Fit the distribution/remove covariates
 
 Note we will set “prop.data” = TRUE as these counts are in terms of
 proportions (relative abundance). The counts will be corrected by infant
@@ -223,7 +310,7 @@ HC_obj2 <- LIMON_DistrFit(Obj = HC_obj,
 The output from this function are lists of the cleaned counts per time
 point stored in the output object.
 
-#### 1f: Network inference per time (SPIEC-EASI)
+#### 2.3 Network inference per time (SPIEC-EASI)
 
 The LIMON_NetINf_Time() function will fit a spiec-easi network per time
 point and accepts the same parameters as spiec.easi(). For information
@@ -235,7 +322,7 @@ we used “bstars” as the selection criteria.
 # Set seed for reproducability
 pseed <- list(rep.num=50, seed=10010)
 
-# Network inference
+# infer network for each timepoint
 HC_obj3 <- LIMON_NetInf_Time(Obj = HC_obj2, 
                                          method = "glasso", 
                                          sel.criterion = "bstars",
@@ -256,7 +343,7 @@ getStability(HC_obj3[["SpiecEasi_Time"]][["Net_2"]])
 getStability(HC_obj3[["SpiecEasi_Time"]][["Net_3"]])
 ```
 
-#### 1g: Get the Edge Tables and Print Networks
+#### 2.4 Get the Edge Tables and Print Networks
 
 Users have the option to specify the absolute edge value to filter by.
 We chose 0.2.
@@ -265,30 +352,44 @@ We chose 0.2.
 # Print Networks
 HC_obj4 <- LIMON_Edges_Networks(HC_obj3, threshold = 0.2, vertex.size = 3, 
                                        vertex.label.cex = 8, vertex.label.color = "black")
+```
 
+<img src="man/figures/README-HCT1.png" width="50%" />  
+<img src="man/figures/README-HCT2.png" width="50%" />  
+<img src="man/figures/README-HCT3.png" width="50%" />
+
+``` r
 # Differences by visit
 HC_obj5 <- LIMON_Diff_Networks(HC_obj4, threshold = 0.2, vertex.size = 3, 
                                        vertex.label.cex = 8, vertex.label.color = "black")
 ```
 
+<img src="man/figures/README-HCdf1.png" width="50%" />  
+<img src="man/figures/README-HCdf2.png" width="50%" />  
+<img src="man/figures/README-HCdf3.png" width="50%" />
+
 To get the edge tables, the LIMON_Cyto_Export function will write the
 edge table for each Time point to the global environment as
 “Edge_Table\_#”. The columns are “Source”, “Sink” and “Edge” for edge
-weight. Rename each edge table to match the condition
+weight. Rename each edge table to match the condition. The exported csv
+files will be useful for building visualization in Cytoscape.
 
 ``` r
+# Export
 LIMON_Cyto_Export(HC_obj4)
 
-#Rename each edge table in global environment
+# Rename each exported edge table
 HC_T1_edge <- Edge_Table_1
 HC_T2_edge <- Edge_Table_2
 HC_T3_edge <- Edge_Table_3
 
-# Example of how write to csv to import into cytoscape
-# write.csv(HC_T3_edge, here("Edge_table_HC_T3.csv"))
+# Write each to CSV
+write.csv(HC_T1_edge, here("Output", "Edge Tables", "HC_T1_edge.csv"))
+write.csv(HC_T2_edge, here("Output", "Edge Tables", "HC_T2_edge.csv"))
+write.csv(HC_T3_edge, here("Output", "Edge Tables", "HC_T3_edge.csv"))
 ```
 
-#### 1h: Individual Networks
+#### 2.5 Individual Networks
 
 Note this will take awhile to run depending on how many samples/taxa you
 are running. This inference was based off of
@@ -305,6 +406,7 @@ Using the same criteria as above, we can now estimate the individual
 networks.
 
 ``` r
+# individual Networks
 HC_obj6 <- LIMON_IndNet(Obj = HC_obj5, method = "glasso", 
                                          sel.criterion = "bstars",
                                          lambda.min.ratio = 0.01,
@@ -312,7 +414,7 @@ HC_obj6 <- LIMON_IndNet(Obj = HC_obj5, method = "glasso",
                                          nlambda = 5)
 ```
 
-#### 1i: Edge and Centrality estimation
+#### 2.6 Edge and Centrality estimation
 
 Finally, we can extract the taxa-taxa edges and network centralitiy
 measures from the individually inferred graphs. These measures are
@@ -330,106 +432,39 @@ HC_obj7 <- LIMON_IndEdges(HC_obj6, threshold = 0.2)
 HC_obj8 <- LIMON_Centralities(HC_obj7)
 ```
 
-Now lets repeat this for the NEC data
-
-### 2. Analysis of NEC INfants
-
-We will start by examining the change in microbial networks for infants
-that went on to develop NEC.
-
-<br>
-
-#### 2a: NEC Infants Raw Data
-
-Load the raw Data for infants who did not develop NEC (labeled as HC)
+#### 2.7 Cleaning up and saving the outputs
 
 ``` r
-data("NEC_Participant_data")
-data("NEC_Repeated_data")
-data("NEC_Sample_data")
-data("NEC_Metagenomic_data")
+# Rename Sample Data with centralities added
+HC_Sample_dataf <- LIMON_SampleData
+
+# Save to Output
+write.csv(HC_Sample_dataf, here("Output", "HC_Centralities.csv"))
+
+# Save the final LIMON Object
+saveRDS(HC_obj8, here("Output", "HC_LIMON.rds"))
 ```
 
-#### 2b: Prep the SampleData
+<br> Now lets repeat this for the NEC data <br>
 
-Make the same time points as in part 1.
+### 3. NEC INFANT ANALYSIS
 
-``` r
-Meta_merged_raw <- merge(NEC_Participant_data, NEC_Repeated_data, by = "Participant_ID")
+------------------------------------------------------------------------
 
-Meta_merged_raw2 <- merge(Meta_merged_raw, NEC_Sample_data, 
-                         by = c("Participant_repeated_measure_ID", "Participant_ID"))
-
-Meta_merged_raw2 <- column_to_rownames(Meta_merged_raw2, "Sample_ID")
-
-Meta_merged_3 <- unique(Meta_merged_raw2)
-
-Meta_merged_4 <- Meta_merged_3[,c(2,5,7,8,16,26)]
-names(Meta_merged_4) <- c("Subject_ID", "Birth_weight", "Sex", "Diet", "Birth_mode", "Age")
-Meta_merged_4$Subject_ID <- sub(" .*", "", Meta_merged_4$Subject_ID)
-Meta_merged_4$Time <- NA
-
-
-Meta_merged <- Meta_merged_4 %>% mutate(Time = case_when(
-  Age >= 0 & Age <= 7 ~ 1,
-  Age >= 8 & Age <= 17 ~ 2,
-  Age >= 18 & Age <= 26 ~ 3,
-  TRUE ~ NA )) %>%
-  filter(!is.na(Time))
-
-Meta_data <- Meta_merged[!duplicated(Meta_merged[c("Subject_ID", "Time")]), ]
-
-Meta_data$Birth_weight <- as.numeric(Meta_data$Birth_weight)
-Meta_data$Age <- as.numeric(Meta_data$Age)
-```
-
-#### 2c: NEC Infants Cleaned Counts
-
-``` r
-# Step 1 - Read Rawcounts
-###################################################################
-Counts <- NEC_Metagenomic_data[,-c(1,3,4)]
-Counts <- column_to_rownames(Counts, "Sample_ID")
-
-# Step 2 - Filter the table 
-###################################################################
-Counts[is.na(Counts)] <- 0
-
-colnames(Counts) <- sub("\\.{2}.*", "", colnames(Counts))
-
-#Drop Eukaroytes and Bacteria columns
-Counts <- Counts[,-c(1,2)]
-
-#Drop columns that sum to 0 
-zero_tax <- which(colSums(Counts) == 0)
-
-# Drop the columns with zero sum
-Counts <- Counts[, -zero_tax]
-
-# Filter to the top 100 taxa
-col_sums <- colSums(Counts)
-colsums_sorted <- order(col_sums, decreasing = TRUE)
-colsums_sorted <- colsums_sorted[1:50]
-Counts <- Counts[, colsums_sorted]
-
-# Step 3 - Filter to Samples in Metadata
-###################################################################
-Counts <- Counts %>% filter(rownames(Counts) %in% rownames(Meta_data))
-```
-
-#### 2d: Make the LIMON Object
+#### 3.1 Make the LIMON Object
 
 ``` r
 # Make the Object
-NEC_obj <- LIMON_Obj(Counts = Counts, 
-                           SampleData = Meta_data)
+NEC_obj <- LIMON_Obj(Counts = NEC_Counts, 
+                           SampleData = NEC_Meta_data)
 ```
 
-#### 2e: Fit the distribution/remove covariates
+#### 3.2 Fit the distribution/remove covariates
 
 Repeat the fit with the same covariates as in the healthy controls
 
 ``` r
+# Fit the distribution/remove covariates
 NEC_Obj2 <- LIMON_DistrFit(Obj = NEC_obj, 
                            prop.data = TRUE,
                                        Time = "Time", 
@@ -438,12 +473,12 @@ NEC_Obj2 <- LIMON_DistrFit(Obj = NEC_obj,
                                        model = "Diet+Birth_mode+Birth_weight")
 ```
 
-#### 2f: SPIEC-EASI per time
+#### 3.3 SPIEC-EASI per time
 
 Using the same parameters as above,
 
 ``` r
-# Set seed for reproducability
+# Set seed
 pseed <- list(rep.num=50, seed=10010)
 
 # SPIEC-EASI per time
@@ -456,7 +491,7 @@ NEC_Obj3 <- LIMON_NetInf_Time(Obj = NEC_Obj2,
                                          nlambda = 5)
 ```
 
-#### 2g: Get the Edge Tables and Print Networks
+#### 3.4 Get the Edge Tables and Print Networks
 
 Users have the option to specify the absolute edge value to filter by.
 We chose 0.2.
@@ -465,11 +500,21 @@ We chose 0.2.
 # Print Networks
 NEC_Obj4 <- LIMON_Edges_Networks(NEC_Obj3, threshold = 0.2, vertex.size = 3, 
                                        vertex.label.cex = 8, vertex.label.color = "black")
+```
 
+<img src="man/figures/README-NECT1.png" width="50%" />  
+<img src="man/figures/README-NECT2.png" width="50%" />  
+<img src="man/figures/README-NECT3.png" width="50%" />
+
+``` r
 # Differences by visit
 NEC_Obj5 <- LIMON_Diff_Networks(NEC_Obj4, threshold = 0.2, vertex.size = 3, 
                                        vertex.label.cex = 8, vertex.label.color = "black")
 ```
+
+<img src="man/figures/README-NECdf1.png" width="50%" />  
+<img src="man/figures/README-NECdf2.png" width="50%" />  
+<img src="man/figures/README-NECdf3.png" width="50%" />
 
 Get the edge tables
 
@@ -480,12 +525,13 @@ NEC_T2_edge <- Edge_Table_2
 NEC_T3_edge <- Edge_Table_3
 ```
 
-#### 2h: Individual Networks
+#### 3.5 Individual Networks
 
 Using the same criteria as above, we can now estimate the individual
 networks.
 
 ``` r
+# Individual Networks
 NEC_Obj6 <- LIMON_IndNet(Obj = NEC_Obj5, 
                                method = "glasso", 
                                          sel.criterion = "bstars",
@@ -495,14 +541,30 @@ NEC_Obj6 <- LIMON_IndNet(Obj = NEC_Obj5,
                                          nlambda = 5)
 ```
 
-#### 1i: Edge and Centrality estimation
+#### 3.6 Edge and Centrality estimation
 
 ``` r
-NEC_Obj7 <- LIMON_Centralities(NEC_Obj6)
-NEC_Obj8 <- LIMON_IndEdges(NEC_Obj7, threshold = 0.2)
+NEC_Obj7 <- LIMON_IndEdges(NEC_Obj6, threshold = 0.2)
+
+NEC_Obj8 <- LIMON_Centralities(NEC_Obj7)
 ```
 
-### 3. Saving LIMON Data
+#### 3.7 Cleaning up and saving the outputs
+
+``` r
+# Rename Sample Data with centralities added
+NC_Sample_dataf <- LIMON_SampleData
+
+# Save to Output
+write.csv(NC_Sample_dataf, here("Output", "NC_Centralities.csv"))
+
+# Save the final LIMON Object
+saveRDS(NEC_Obj8, here("Output", "NEC_LIMON.rds"))
+```
+
+<br>
+
+### 4. Saving & Reading LIMON Data Objects
 
 To avoid having to repeat the individual network inference step
 everytime a usre wants to close their code, we rcommend using the
@@ -511,23 +573,24 @@ LIMON output to your directory. In this example we use the
 [here](https://here.r-lib.org/) package to save it to an Output folder.
 
 ``` r
-# Save the object
-library(here)
-
-# Save the Object to an Output folder
-saveRDS(NEC_Obj8, here("Output", "NEC_LIMON.rds"))
+# Save the Object to an Output folder with the previous code
+# saveRDS(NEC_Obj8, here("Output", "NEC_LIMON.rds"))
 ```
 
-Read the object back in
+Read the object back in with
 
 ``` r
 NEC_LIMON <- readRDS(here("Output", "NEC_LIMON.rds"))
+
+HC_LIMON <- readRDS(here("Output", "HC_LIMON.rds"))
 ```
 
-### 4. Filtering LIMON Objects
+<br>
+
+### 5. Filtering LIMON Objects
 
 Lets say we wanted to infer networks for males and female neonates who
-developed NEC seperately. To do so, sperate out the LIMON objects as
+developed NEC seperately. To do so, seperate out the LIMON objects as
 below and proceed with the same workflow as above.
 
 ``` r
@@ -536,7 +599,7 @@ below and proceed with the same workflow as above.
 # NEC Male Neonates
 ###########################################################################
 #Filter the metadata
-mInfant <- NEC_obj 
+mInfant <- NEC_LIMON
 mInfant[["SampleData"]] <- mInfant[["SampleData"]] %>% filter(Sex == "Male")
 
 #Filter the Countdata
@@ -546,18 +609,132 @@ mInfant[["Counts"]] <- mInfant[["Counts"]] %>% filter(rownames(mInfant[["Counts"
 # NEC Female Neonates
 ###########################################################################
 #Filter the metadata
-fInfant <- NEC_obj 
+fInfant <- NEC_LIMON 
 fInfant[["SampleData"]] <- fInfant[["SampleData"]] %>% filter(Sex == "Female")
 
 #Filter the Countdata
 fInfant[["Counts"]] <- fInfant[["Counts"]] %>% filter(rownames(fInfant[["Counts"]]) %in% rownames(fInfant[["SampleData"]]))
 ```
 
-### 5. Reference code for while im building the github
+<br>
 
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this.
+### 6. Statistical Analysis of LIMON outputs
 
-You can also embed plots, for example:
+Now that we have inferred longitudinal individual network changes, what
+do we do with this information? The first thing we can do is examine how
+centrality measures change overtime. An example of what some of this
+centralities measures are is below,
 
-<img src="man/figures/README-pressure-1.png" width="100%" />
+<img src="man/figures/README-networkexample.png" width="70%" />
+
+<br> Assume we are starting from the point where we read our saved LIMON
+objects back into R using readRDS.
+
+#### 6.1 Grouping the Model Data
+
+We are interested in looking at differences in network characteristics
+overtime between the NEC and nonNEC infants. Lets start by groupin their
+SampleData outputs from LIMON with the centrality measures
+
+``` r
+# Group the data 
+Centrality_data <- rbind(NEC_LIMON[["SampleData"]], HC_LIMON[["SampleData"]])
+
+# Update the disease column with character values for better graph printings
+Centrality_data <- Centrality_data %>% mutate(NEC = case_when(NEC == 0 ~ "Non-NEC",
+                                                              NEC == 1 ~ "NEC"))
+```
+
+#### 6.2 Network Degree differences
+
+The first centrality we will examine is Degree. To do so, lets fit a
+linear mixed model looking at the interaction between Time and the
+disease state. Then we will plot the original values with the fitted
+line side by side for NEC and Non-NEC infants.
+
+``` r
+# Fit the linear mixed model 
+model <- lmer(DegreeCentrality ~ Time * NEC + (1 | Subject_ID), data = Centrality_data)
+
+# Print the results 
+sjPlot::tab_model(model)
+summary_model <- summary(model)
+
+# Extract the p-value for the interaction term
+p_value_interaction <- summary_model$coefficients["Time:NECNon-NEC","Pr(>|t|)"]
+
+# Extract fixed effects from the model
+fixed_effects <- fixef(model)
+
+# Create a data frame for plotting
+plot_data <- expand.grid(Time = unique(Centrality_data$Time), 
+                         NEC = unique(Centrality_data$NEC),
+                         Subject_ID = unique(Centrality_data$Subject_ID))
+
+# Add the fixed effects to the data frame
+plot_data$DegreeCentrality <- predict(model, newdata = plot_data)
+
+# Plot the interaction effect over time with original values
+ggplot() +
+  geom_line(data = plot_data, aes(x = Time, y = DegreeCentrality, group = Subject_ID), 
+            linetype = "dashed", color = "gray") +
+  geom_jitter(data = Centrality_data, aes(x = Time, y = DegreeCentrality, color = NEC)) +
+  facet_wrap(~NEC) +
+  labs(title = paste("NEC Group Differences Over Time\n", 
+                     "Interaction p-value =", 
+                     format(p_value_interaction, scientific = FALSE, digits = 2)),
+       x = "Time",
+       y = "Degree Centrality") +
+  theme_minimal() + 
+  scale_x_continuous(breaks = c(1, 2, 3), labels = c("8-12 Days", "18-22 Days", "28-32"))
+```
+
+<img src="man/figures/README-Degree.png" width="70%" />
+
+#### 6.3 Network Betweenness differences
+
+We can repeat the same code for a different measure like betweenness
+
+``` r
+# Fit the model
+model <- lmer(BetweennessCentrality ~ Time * NEC + (1 | Subject_ID), data = Centrality_data)
+sjPlot::tab_model(model)
+summary_model <- summary(model)
+
+# Extract the p-value for the interaction term
+p_value_interaction <- summary_model$coefficients["Time:NECNon-NEC","Pr(>|t|)"]
+
+# Extract fixed effects from the model
+fixed_effects <- fixef(model)
+
+# Create a data frame for plotting
+plot_data <- expand.grid(Time = unique(Centrality_data$Time), 
+                         NEC = unique(Centrality_data$NEC),
+                         Subject_ID = unique(Centrality_data$Subject_ID))
+
+# Add the fixed effects to the data frame
+plot_data$BetweennessCentrality <- predict(model, newdata = plot_data)
+
+# Plot the interaction effect over time with original values
+ggplot() +
+  geom_line(data = plot_data, aes(x = Time, y = BetweennessCentrality, group = Subject_ID), linetype = "dashed", color = "gray") +
+  geom_jitter(data = Centrality_data, aes(x = Time, y = BetweennessCentrality, color = NEC)) +
+  facet_wrap(~NEC) +
+  labs(title = paste("NEC Group Differences Over Time\n", 
+                     "Interaction p-value =", 
+                     format(p_value_interaction, scientific = FALSE, digits = 2)),
+       x = "Time",
+       y = "Betweenness Centrality") +
+  theme_minimal() + 
+  scale_x_continuous(breaks = c(1, 2, 3), labels = c("8-12 Days", "18-22 Days", "28-32"))
+```
+
+<img src="man/figures/README-Betweenness.png" width="70%" /> <br>
+
+Further investigation can be to examine changes in the edges between two
+taxa overtime between the two groups. We will update this tutorial with
+this appraoch as we continue to refine LIMON. <br>
+
+Thanks for following along! If you have any suggestions, comments or
+questions, please reach out so we can make this line of investigation as
+robust as possible :)

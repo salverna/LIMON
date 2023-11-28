@@ -10,7 +10,7 @@ LIMON_Centralities(Obj)
 \item{Obj}{LIMON Object from LIMON_NetInf_Time()}
 }
 \value{
-LIMON Object with updated SampleData that contains network centralities per sample. SampleData is written to Global environment as LIMON_SampleData
+LIMON Object with updated SampleData that contains network centralities per sample. SampleData is written to Global environment as LIMON_SampleData. Note the number of random walks for the Communities is 30
 }
 \description{
 Calculate network centralities from each individual graph and add to Sample Data from export. Returns average Degree Centrality, average Closeness Centrality, average Betweenness Centrality, Eigenvector Centrality, and total Communities per sample.

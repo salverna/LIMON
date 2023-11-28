@@ -4,7 +4,7 @@
 #'
 #' @param Obj LIMON Object from LIMON_NetInf_Time()
 #'
-#' @return LIMON Object with updated SampleData that contains network centralities per sample. SampleData is written to Global environment as LIMON_SampleData
+#' @return LIMON Object with updated SampleData that contains network centralities per sample. SampleData is written to Global environment as LIMON_SampleData. Note the number of random walks for the Communities is 30
 #' @export
 #'
 LIMON_Centralities <- function(Obj){
@@ -37,8 +37,8 @@ LIMON_Centralities <- function(Obj){
     eigenvector_value <- eigen_centrality(graph)
     eigenvector_values[i] <- eigenvector_value[["value"]]
 
-    # Return the total number of communties from a cluster random walk
-    communities[i] <- max(membership(cluster_walktrap(graph)))
+    # Return the total number of communities from a cluster random walk
+    communities[i] <- max(membership(cluster_walktrap(graph, steps = 30)))
 
   }
 
@@ -47,7 +47,7 @@ LIMON_Centralities <- function(Obj){
   SampleData$ClosenessCentrality <- closeness_values
   SampleData$BetweennessCentrality <- betweenness_values
   SampleData$EigenCentrality <- eigenvector_values
-  SampleData$Communitiies <- communities
+  SampleData$Communities <- communities
 
   Obj$SampleData <- SampleData
 

@@ -5,7 +5,7 @@
 \alias{NEC_Sample_data}
 \title{NEC subset of Sample Data from "Necrotizing enterocolitis is preceded by increased gut bacterial replication, Klebsiella, and fimbriae-encoding bacteria." Olm et al. Sci Adv 2019;5(12):eaax5727}
 \format{
-A data frame with 409 rows and 24 variables:
+A data frame with 1124 rows and 24 variables:
 \describe{
   \item{\code{Sample_ID}}{character COLUMN_DESCRIPTION}
   \item{\code{Participant_repeated_measure_ID}}{character COLUMN_DESCRIPTION}
@@ -40,6 +40,6 @@ A data frame with 409 rows and 24 variables:
 NEC_Sample_data
 }
 \description{
-This was a NICU study that conducted deep metagenomic profiling of samples collected longitudinally from 150 pre-term infants. 30 of these infants developed necrotizing enterocolitis. For this example data, we used the MicrobiomeDB to pull the relative abundance metagenomic tables for the 30 infants who developed NEC.
+This was a NICU study that conducted deep metagenomic profiling of samples collected longitudinally from 150 pre-term infants. 30 of these infants developed necrotizing enterocolitis. For this example data, we used the MicrobiomeDB to pull the relative abundance metagenomic tables at the species level.
 }
 \keyword{datasets}
