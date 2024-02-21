@@ -7,8 +7,8 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-This pipeline is still under development. We appreciate any comments or
-feedback to help improve this platform
+This pipeline is still under development. We are currently working on validating this work flow and preparing for publication. We appreciate any comments or
+feedback to help improve this platform.
 
 ## Motivation
 
