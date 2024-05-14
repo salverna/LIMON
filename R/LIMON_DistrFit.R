@@ -75,8 +75,8 @@ LIMON_DistrFit <- function(Obj, Time, Subject, Covariates, model, prop.data = FA
   #Corrected_Counts <- Corrected_Counts + 1
 
   # scale to positive and make larger
-  Corrected_Counts <- Corrected_Counts + abs(min(Corrected_Counts)) #############################CHECK##############################
-  Corrected_Counts <- round(Corrected_Counts*10) #############################CHECK##############################
+  Corrected_Counts <- Corrected_Counts + abs(min(Corrected_Counts))
+  Corrected_Counts <- round(Corrected_Counts*10)
 
   Obj$Corrected_Counts <- Corrected_Counts
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/LIMON_Edges_Networks.R
 \name{LIMON_Edges_Networks}
 \alias{LIMON_Edges_Networks}
-\title{Get edge table and printed netowrk from LIMON after Network inference per time}
+\title{Get edge table and printed network from LIMON after Network inference per time}
 \usage{
 LIMON_Edges_Networks(
   Obj,
@@ -27,5 +27,5 @@ LIMON_Edges_Networks(
 A LIMON Object with Edge_Table and Network_Graphs added to it. Edge_Table: List with Edge_Table_i for each Time point i. Columns are sources and sinks (taxa rows and columns from covariance matrix) and Edge_weight - value from covariance matrix. Network_Graphs: A Network_Graph_i igraph per time point i. Prints a graph per time point
 }
 \description{
-Get edge table and printed netowrk from LIMON after Network inference per time
+Get edge table and printed network from LIMON after Network inference per time
 }

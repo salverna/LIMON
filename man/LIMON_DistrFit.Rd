@@ -11,7 +11,8 @@ LIMON_DistrFit(
   Covariates,
   model,
   prop.data = FALSE,
-  correlation = NULL
+  correlation = NULL,
+  use_zinb = TRUE
 )
 }
 \arguments{
@@ -25,12 +26,14 @@ LIMON_DistrFit(
 
 \item{model}{(Required) Specify the right side of the lmer equation (the covariates to correct by)}
 
-\item{prop.data}{(Optional) Option to specify if these are proprotional data or not. [Default] = FALSE indicating these are raw counts. If using relative abundance or other proportion data, specify TRUE.}
+\item{prop.data}{(Optional) Option to specify if these are proportional data or not. [Default] = FALSE indicating these are raw counts. If using relative abundance or other proportion data, specify TRUE. lme.zig() equation from the NBZIMM package.}
 
 \item{correlation}{(Optional) Option to specify the correlation structure for model fitting ([Default] of NULL specifies unstructured). Follows the same covariance structure names as in NBZIMM}
+
+\item{use_zinb}{(Optional) Species if zero inflated data. [Default] = TRUE. If true and prop.data is FALSE, then the model will run a Zero-Inflated Negative Binomial LMM, glmm.zinb() function in NBZIMM. If this is set to FALSE, it will run a Negative Binomial LMM, glmm.nb() in NBZIMM.}
 }
 \value{
-LIMON Object with the addition; (1) Model_data: contains the Counts and SampleData in Long Format for the model. (2) equation: the formula for ZINBLMM. (3) Model_res: The results from running glmm.zinb(). (4) Corrected_Counts: corrected count values with samples as rows and taxa as columns. (5) Corrected_Counts_Time: corrected count values per time point with samples as rows and taxa as columns.
+LIMON Object with the addition; (1) Model_data: contains the Counts and SampleData in Long Format for the model. (2) equation: the formula for ZINBLMM. (3) Model_res: The results from running the linear mixed model. (4) Corrected_Counts: corrected count values with samples as rows and taxa as columns. (5) Corrected_Counts_Time: corrected count values per time point with samples as rows and taxa as columns.
 }
 \description{
 This function fits a zero inflated negative binomial linear mixed model with user specified Time variable, subjects as random effects, and covariates. The returned value are coutns per time point that have had the covariate effect removed from them. We recommend users to perform ZINBLMM model fitting and selection to determine the appropriate model and covariance structure before using this step. The function will fit a zero-inflated negative binomial linear mixed model with the covariates to correct by. The function will first convert the count table and sample data into a long formatted model table. The model will be fit with the outcome variable as "asvcounts" and the predictors as covariates to correct by with subjects modeled as random effects.
